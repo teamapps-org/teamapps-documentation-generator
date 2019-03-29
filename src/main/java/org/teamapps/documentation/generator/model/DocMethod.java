@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.BufferedTokenStream;
 import org.teamapps.documentation.generator.grammar.java9.Java9Parser;
 
 import static org.teamapps.documentation.generator.model.AstUtil.*;
+import static org.teamapps.documentation.generator.model.StringUtil.normalizeIndentation;
 
 public class DocMethod {
 	private final Java9Parser.MethodDeclarationContext methodDeclaration;
@@ -16,6 +17,11 @@ public class DocMethod {
 		this.tokenStream = tokenStream;
 		this.javaDoc = extractMethodJavadoc(tokenStream, methodDeclaration);
 		this.docAnnotation = getDocAnnotation(methodDeclaration);
+		// this.methodDeclaration.methodModifier().removeIf(methodModifierContext -> {
+		// 	boolean isDocAnnotation = methodModifierContext.annotation() != null && methodModifierContext.annotation().normalAnnotation() == docAnnotation;
+		// 	System.out.println(isDocAnnotation);
+		// 	return isDocAnnotation;
+		// });
 	}
 
 	public String getTitle() {
@@ -31,10 +37,11 @@ public class DocMethod {
 	}
 
 	public String getBodyCode() {
-		return getFullText(this.methodDeclaration.methodBody());
+		return normalizeIndentation(getFullText(this.methodDeclaration.methodBody().block().blockStatements()));
 	}
 
 	public String getFullMethodCode() {
-		return getFullText(this.methodDeclaration);
+		return normalizeIndentation(getFullText(this.methodDeclaration));
 	}
+
 }

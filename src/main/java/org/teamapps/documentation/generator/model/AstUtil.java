@@ -48,8 +48,8 @@ public class AstUtil {
 				if (commentText.startsWith("/**")) {
 					return commentText
 							.replaceAll("\\s+\\*+/", "")
-							.replaceAll("\n\\s*\\* ", "\n")
-							.replaceAll("(/\\*+)\\s*\n?", "");
+							.replaceAll("\r?\n\\s*\\* ", "\n")
+							.replaceAll("(/\\*+)\\s*\r?\n?", "");
 
 				}
 			}
