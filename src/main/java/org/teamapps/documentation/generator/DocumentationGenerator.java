@@ -1,6 +1,6 @@
 package org.teamapps.documentation.generator;
 
-import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -24,7 +24,7 @@ public class DocumentationGenerator {
 	public DocumentationGenerator() {
 	}
 
-	public void generateDocumentation(Reader javaClassReader, File targetHtmlFile) {
+	public void generateDocumentation(Reader javaClassReader, TemplateLoader freemarkerTemplateLoader, File targetHtmlFile, Map<String, Object> additionalRootVariables) {
 		try {
 			Java9Parser parser = ParserUtil.createJava9arser(javaClassReader);
 			Java9Parser.OrdinaryCompilationContext compilationContext = parser.ordinaryCompilation();
@@ -33,21 +33,22 @@ public class DocumentationGenerator {
 
 			DocClass docClass = new DocClass(classDecl, ((BufferedTokenStream) parser.getTokenStream()));
 
-			generateHtml(docClass, targetHtmlFile);
+			generateHtml(docClass, targetHtmlFile, freemarkerTemplateLoader, additionalRootVariables);
 		} catch (IOException | TemplateException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void generateHtml(DocClass docClass, File targetHtmlFile) throws IOException, TemplateException {
+	private void generateHtml(DocClass docClass, File targetHtmlFile, TemplateLoader freemarkerTemplateLoader, Map<String, Object> additionalRootVariables) throws IOException, TemplateException {
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_27);
-		cfg.setTemplateLoader(new ClassTemplateLoader(DocumentationGenerator.class.getClassLoader(), "/org/teamapps/documentation/template"));
+		cfg.setTemplateLoader(freemarkerTemplateLoader);
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		cfg.setLogTemplateExceptions(false);
 		cfg.setWrapUncheckedExceptions(true);
 
 		Map<String, Object> root = new HashMap<>();
+		root.putAll(additionalRootVariables);
 		root.put("class", docClass);
 
 		Template temp = cfg.getTemplate("documentation.ftlh");

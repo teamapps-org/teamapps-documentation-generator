@@ -1,11 +1,13 @@
 package org.teamapps.documentation.generator;
 
+import freemarker.cache.ClassTemplateLoader;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 public class DocumentationGeneratorTest {
 
@@ -13,7 +15,12 @@ public class DocumentationGeneratorTest {
 	public void test() {
 		InputStream inputStream = getClass().getResourceAsStream("/org/teamapps/documentation/generator/test/TestDocClass.java");
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-		new DocumentationGenerator().generateDocumentation(inputStreamReader, new File("target/generator-test-output/TestDocClass.html"));
+		new DocumentationGenerator().generateDocumentation(
+				inputStreamReader,
+				new ClassTemplateLoader(DocumentationGenerator.class.getClassLoader(), "/org/teamapps/documentation/generator/test"),
+				new File("target/generator-test-output/TestDocClass.html"),
+				Collections.emptyMap()
+		);
 	}
 
 }
