@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TeamAppsDocMethod {
 
-	String title();
+	String title() default "";
 
 	boolean includeMethodDeclaration() default false;
 
