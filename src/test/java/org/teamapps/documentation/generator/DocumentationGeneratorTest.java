@@ -34,10 +34,13 @@ public class DocumentationGeneratorTest {
 	public void test() {
 		InputStream inputStream = getClass().getResourceAsStream("/org/teamapps/documentation/generator/test/TestDocClass.java");
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+		File targetHtmlFile = new File("target/generator-test-output/TestDocClass.html");
+		System.out.println(targetHtmlFile.getAbsolutePath());
 		new DocumentationGenerator().generateDocumentation(
 				inputStreamReader,
 				new ClassTemplateLoader(DocumentationGenerator.class.getClassLoader(), "/org/teamapps/documentation/generator/test"),
-				new File("target/generator-test-output/TestDocClass.html"),
+				targetHtmlFile,
+				// new PrintWriter(System.out),
 				Collections.emptyMap()
 		);
 	}

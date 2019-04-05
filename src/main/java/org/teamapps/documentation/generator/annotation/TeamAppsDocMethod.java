@@ -32,4 +32,6 @@ public @interface TeamAppsDocMethod {
 
 	boolean includeMethodDeclaration() default false;
 
+	String[] images() default {};
+
 }

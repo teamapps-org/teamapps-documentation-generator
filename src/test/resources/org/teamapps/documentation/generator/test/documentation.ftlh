@@ -9,6 +9,10 @@
 
 <#list class.docMethods as method>
 	<h2 class="method-doc-title">${method.title}</h2>
+	<#list method.images as image>
+		${image}
+		<img src="${image}" alt="${image}"/>
+	</#list>
 	<#if method.javaDoc??>
 		<div class="method-doc-text">
 			<#noautoesc>

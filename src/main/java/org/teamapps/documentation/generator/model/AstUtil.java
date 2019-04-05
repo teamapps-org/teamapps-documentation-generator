@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,9 @@ import org.teamapps.documentation.generator.annotation.TeamAppsDocMethod;
 import org.teamapps.documentation.generator.grammar.java9.Java9Lexer;
 import org.teamapps.documentation.generator.grammar.java9.Java9Parser;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AstUtil {
 
@@ -83,6 +85,18 @@ public class AstUtil {
 			return title.substring(1, title.length() - 1);
 		} else {
 			return null;
+		}
+	}
+
+	public static List<String> getStringArrayAnnotationValue(Java9Parser.NormalAnnotationContext annotation, String attributeName) {
+		Java9Parser.ElementValueContext annotationValue = getAnnotationValue(annotation, attributeName);
+		if (annotationValue != null && annotationValue.elementValueArrayInitializer() != null
+				&& annotationValue.elementValueArrayInitializer().elementValueList() != null) {
+			return annotationValue.elementValueArrayInitializer().elementValueList().elementValue().stream()
+					.map(ev -> ev.getText().substring(1, ev.getText().length() - 1))
+					.collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
 		}
 	}
 

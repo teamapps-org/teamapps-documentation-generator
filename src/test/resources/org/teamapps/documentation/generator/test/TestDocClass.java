@@ -35,7 +35,7 @@ public class TestDocClass {
 	 * </ol>
 	 * and so on...
 	 */
-	@TeamAppsDocMethod(title = "Method Title 1")
+	@TeamAppsDocMethod(title = "Method Title 1", images = {"image1.png", "image2.png"})
 	public void theMethodNameHasNoMeaning() {
 		WebController controller = new SimpleWebController(context -> {
 			Panel panel = new Panel(Icons.FOLDER3, "Mein Panel");

@@ -22,6 +22,8 @@ package org.teamapps.documentation.generator.model;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.teamapps.documentation.generator.grammar.java9.Java9Parser;
 
+import java.util.List;
+
 import static org.teamapps.documentation.generator.model.AstUtil.*;
 import static org.teamapps.documentation.generator.model.StringUtil.normalizeIndentation;
 
@@ -45,6 +47,13 @@ public class DocMethod {
 
 	public String getTitle() {
 		return getStringAnnotationValue(docAnnotation, "title");
+	}
+
+
+	public List<String> getImages() {
+		List<String> images = getStringArrayAnnotationValue(docAnnotation, "images");
+		System.out.println(images);
+		return images;
 	}
 
 	public String getJavaDoc() {
