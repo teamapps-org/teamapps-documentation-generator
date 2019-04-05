@@ -90,11 +90,15 @@ public class AstUtil {
 
 	public static List<String> getStringArrayAnnotationValue(Java9Parser.NormalAnnotationContext annotation, String attributeName) {
 		Java9Parser.ElementValueContext annotationValue = getAnnotationValue(annotation, attributeName);
-		if (annotationValue != null && annotationValue.elementValueArrayInitializer() != null
-				&& annotationValue.elementValueArrayInitializer().elementValueList() != null) {
-			return annotationValue.elementValueArrayInitializer().elementValueList().elementValue().stream()
-					.map(ev -> ev.getText().substring(1, ev.getText().length() - 1))
-					.collect(Collectors.toList());
+		if (annotationValue != null) {
+			if (annotationValue.elementValueArrayInitializer() != null
+					&& annotationValue.elementValueArrayInitializer().elementValueList() != null) {
+				return annotationValue.elementValueArrayInitializer().elementValueList().elementValue().stream()
+						.map(ev -> ev.getText().substring(1, ev.getText().length() - 1))
+						.collect(Collectors.toList());
+			} else {
+				return Collections.singletonList(getStringAnnotationValue(annotation, attributeName));
+			}
 		} else {
 			return Collections.emptyList();
 		}

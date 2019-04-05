@@ -35,19 +35,10 @@ public class TestDocClass {
 	 * </ol>
 	 * and so on...
 	 */
-	@TeamAppsDocMethod(title = "Method Title 1", images = {"image1.png", "image2.png"})
+	@TeamAppsDocMethod(title = "Method Title 1", images = "image1.png")
 	public void theMethodNameHasNoMeaning() {
 		WebController controller = new SimpleWebController(context -> {
 			Panel panel = new Panel(Icons.FOLDER3, "Mein Panel");
-			panel.setStretchContent(false);
-			panel.setPadding(10);
-
-			CurrencyField currencyField = new CurrencyField();
-			currencyField.setCurrencyList(Arrays.asList(Currency.EUR, Currency.USD));
-			currencyField.setPrecision(4);
-
-			CurrencyValue value = currencyField.getValue();
-
 			panel.setContent(currencyField);
 			return panel;
 		});
@@ -60,33 +51,15 @@ public class TestDocClass {
 	@YetAnotherAnnotation(foo = "bar")
 	public void someMethodWithoutDocumentation() {
 		WebController controller = new SimpleWebController(context -> {
-			Panel panel = new Panel(Icons.FOLDER3, "Mein Panel");
-			panel.setStretchContent(false);
-			panel.setPadding(10);
-
-
-			NumberField numberField = new NumberField(1);
-
-			numberField.setMinValue(0);
-			numberField.setMaxValue(100);
-			numberField.setSliderStep(0.5);
-			numberField.setSliderMode(NumberFieldSliderMode.VISIBLE_IF_FOCUSED);
-
-			// numberField.onValueChanged.addListener();
-
-			Slider slider = new Slider();
-			slider.setMin(0);
-			slider.setMax(100);
-
-			slider.getValue();
-
-	        // slider.onValueChanged.addListener();
-			                 
-			panel.setContent(numberField);
-			return panel;
+			// ...
 		});
-
 		new TeamAppsJettyEmbeddedServer(controller, Files.createTempDir()).start();
+	}
+
+	@SomeOtherAnnotation
+	@TeamAppsDocMethod(title = "Method Title 3", images = {"image1.png", "image2.png"})
+	public void someMethodWithoutDocumentation() {
+		System.out.println();
 	}
 
 	public void nonAnnotatedMethod() {
