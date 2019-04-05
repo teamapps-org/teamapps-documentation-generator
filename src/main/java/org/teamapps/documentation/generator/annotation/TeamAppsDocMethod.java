@@ -34,4 +34,6 @@ public @interface TeamAppsDocMethod {
 
 	String[] images() default {};
 
+	int height() default 0;
+
 }
